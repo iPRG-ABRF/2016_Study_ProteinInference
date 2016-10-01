@@ -1,0 +1,103 @@
+---
+title: "iPRG 2016 Study"
+author: "XIAO PEI"
+date: "september 30, 2016"
+output: html_document
+---
+***
+### Introduction
+In this study, we performed proteoforms identification and false-discovery rate (FDR) estimation. As the absence of search parameter information, we acquired the search parameters by an open search of the data. Then we estimated the peptide presence probabilities with the Group FDR $method^{[1]}$. By a greedy algorithm we assembled the protein identified in each dataset. Finally, a tab-delimited table containing a data matrix with probabilities of presence for each identified proteoform was generated.
+
+***
+### Methods
+  
+#### 1. Search Parameters
+
+we first used amplified precursor and fragment mass tolerance to search the data.Then, we obtained the deltamass distribution(plotted below), and determined the proper mass tolerances accordingly.
+
+![](parameter.png)
+
+Particularly, we used an open search method to discover the possible modifications in the data.
+
+**Parameters used**
+
+Parmeters                 | Values
+------------------------- | -------------------------------------------------------
+*Instrument*              | *ESI-CID-Orbitrap*
+*Enzyme*                  | *Trypsin/P*
+*Mass values*             | *Monoisotopic*
+*Max missed cleavages*    | *2*
+*Fixed modification*      | *Carbamidomethyl[C]*
+*Variable modifications*  | *Oxidation[M],Carbamidomethyl[N-term],Carbamidomethyl[K]*
+*Peptide mass tolerance*  | *10ppm*
+*Fragment mass tolerance* | *0.05Da*
+*Protein mass*            | *Unrestricted*
+*Database*                | *iPRG2016.fasta*
+*Database pattern*        | *Decoy(REVERSE)*
+
+
+
+
+***
+  
+#### 2. Converting raw data to MGF
+
+For each raw file, we converted it to mgf file by using pParse.
+
+***
+#### 3. Performing database search
+  
+Here we simply call the specify search engine with the specify parameters on each data file separately.
+
+We searched each data file separately using Mascot(2.5.1) with the parameters specified above.
+
+***
+#### 4. perform Group FDR to filter the identifications
+  
+We performed the group FDR estimation by $FU^{[1]}$. The search results were filtered by FDR threshold of 0.01 in each dataset.
+
+The fitted score distribution showed below for dataset A as an example.
+
+**Dataset A**: ![](A.png)
+
+***
+#### 5. Protein inference
+Next, we integrated all the high-quality spectrum identications into protein groups by a greedy algorithm. Each protein was associated with at least two peptides. Finally, the probability of whether a protein exists is estimated.
+
+
+***
+### Results
+  
+#### 6. Clustering and heatmap plotting
+We placed the results in an R probability matrix with the sequences (proteoforms) as rows and samples as columns.
+  
+```{r}
+path = 'D:/iPRG2016/study_package1/postProbabilityResult.txt'
+data = read.table(path)
+probability = as.matrix(data)
+heatmap(probability,col=cm.colors(256),margins = c(3,3), cexCol = 1, cexRow = 0.05, scale = 'none')
+```
+
+#### 7. Export results for study submission
+Finally, we extracted and exported the PrEST results to a tab-delimted file, which is submitted to [iprg2016.org](http://iprg2016.org).
+
+
+***
+### Summary
+
+* We explored the mass tolerances and possible modifications by open search.
+* A group FDR control method was used for proteoform identification.
+* Protein inference was done with a greedy algorithm.
+
+***
+### Reference
+[1] Fu,Y. and Qian,X. (2014) Transferred subgroup false discovery rate for rare post-translational modifications detected by mass spectrometry. Mol.Cell.Proteomics,13,1359-1368.
+
+                                                                                                                                                                                                                                                           
+                                                                                                                                                                                                                                                           
+
+
+
+
+
+  
