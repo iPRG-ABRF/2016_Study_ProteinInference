@@ -1,0 +1,20 @@
+Step 0. Convert data format
+Convert raw file into mzML by msconvert from ProteoWizard.
+
+Step 1. Search
+Search Engine: Comet v2016012
+
+Search Strategy: Target decoy concatenated
+
+Search Parameter:All default parameters are used, except  "search_enzyme_number=2"
+
+Step 2. Filter
+Filter by threshold at FDR < 1%: xinteract from TPP(4.7.1) is used with commandline options as following.
+
+" -dDECOY -p0 -ip -OPd "
+
+Step 3. Generate tsv format
+Extract proteins above protein FDR < 1% from "interact-*.ipro.prot.xml" files and keep only proteins with "HPRR" in name. 
+
+Write the tsv format for submission by an in-hourse python script.
+
