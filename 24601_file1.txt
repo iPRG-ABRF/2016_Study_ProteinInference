@@ -1,0 +1,5 @@
+1. use msconvert to convert files from RAW to mzXML.
+2. use x!tandem and comet to search the files.
+3. peptideProphet and iProphet were used to combine search results from different search engines.
+4. ProteinProphet was used to generate a post-probability for each protein/proteoform group, which was further converted into a table by prot2xls.
+5. a simple R script was made to generate the final submitted table.
