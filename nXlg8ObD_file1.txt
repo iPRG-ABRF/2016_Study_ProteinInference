@@ -1,0 +1,9 @@
+  iPRG2016
+  I have run MaxQuant(version 1.5.3.28) with following  parameters: 
+  Precursor mass tolerance: 13 ppm.
+  Fragment mass tolerance: 0.01 Da.
+  Variable Modifications: Oxidation(M), Acetyl(K), Acetyl(Protein N-term), Deamidation (NQ).
+  Contaminants was not included to database.
+  Min. peptide length: 5.
+  All other parameters was default.
+  
